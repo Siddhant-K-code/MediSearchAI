@@ -1,3 +1,6 @@
 pandas
 sentence-transformers
 qdrant-client
+matplotlib
+seaborn
+scikit-learn

@@ -4,11 +4,9 @@
 
 MediSearchAI is a proof of concept (POC) to showcase how vector search can make our interaction with pharmaceutical data information a lot easier. Taking advantage of cutting-edge sentence embeddings in combination with a vector DB, this project goes beyond keyword matching, providing a more intelligent, flexible and accurate search capabilities.
 
-If you’ve ever had a hard time finding other, more specific pharmaceutical questions like “Which painkillers can help with a fever?” or, “What can I take instead of ibuprofen?”, MediSearchAI strives to deliver useful responses.
+If you’ve ever had a hard time finding other, more specific pharmaceutical questions like **“Which painkillers can help with a fever?”** or, **“What can I take instead of ibuprofen?”**, MediSearchAI strives to deliver useful responses.
 
 This POC connects **intfloat/multilingual-e5-base** (precision-optimized multilingual text embeddings) and Qdrant, the high-performance vector database, to udnerstand diverse and often-complex drug data.
-
----
 
 ## Pharmaceuticals: Why Vector Search?
 
@@ -21,8 +19,6 @@ The pharmaceutical industry The pharmaceutical domain presents unique challeng
 - **Semantic Nuances**: The types of questions doctors and pharmacists ask are very different.
 
 This is where vector search shines because it understands context, not just exact matches. It enables us to search by meaning, including queries that are fuzzy or incomplete, so it is an excellent
-
----
 
 ## Main Features
 
@@ -118,28 +114,60 @@ Targets: COX-1, COX-2
 ```
 
 ### Performance Metrics
-- **Embedding Generation**:
-  - ~50ms per drug using GPU (intfloat/multilingual-e5-base).
-- **Vector Search**:
-  - ~1ms per query in Qdrant.
 
-## **Benefits of MediSearchAI**
-1. **Smarter Search**:
-   - Handles synonyms, variants, and semantic complexity effortlessly.
+| **Metric**             | **MySQL Full-Text Search** | **Vector Search (Qdrant)** |
+| ---------------------- | -------------------------- | -------------------------- |
+| Query Preparation Time | **0ms**                    | **50ms (embedding)**       |
+| Search Execution Time  | **<1ms**                   | **~1ms**                   |
+| Total Time Per Query   | **<1ms**                   | **~51ms**                  |
 
-2. **Scalable Design**:
-   - Built on modern tools (e.g., Qdrant, SentenceTransformers) that handle scale without breaking a sweat.
+### Graphical Insights
 
-3. **Future-Ready**:
-   - Easily integrates with LLMs for conversational interfaces or advanced medical Q&A.
+#### 1. Accuracy Comparison
+Qdrant outperforms MySQL Full-Text Search in delivering semantically accurate results:
+
+![Accuracy Comparison](./charts/accuracy_comparison.png)
+
+---
+
+#### 2. Clustering Visualization
+Drugs with similar properties cluster together in a t-SNE visualization of embeddings:
+
+![t-SNE Clustering](./charts/embedding_clusters.png)
+
+---
+
+#### 3. Query Time Distribution
+A comparison of query response times for MySQL Full-Text Search and Qdrant Vector Search:
+
+![Query Time Distribution](./charts/query_response_times.png)
+
+---
+
+#### 4. Search Time Breakdown
+A detailed breakdown of query preparation and execution times:
+
+![Search Time Comparison](./charts/search_time_comparison.png)
+
+---
+
+## Why Use Vector Search?
+
+| **Use Case**                              | **MySQL Full-Text** | **Vector Search**          |
+| ----------------------------------------- | ------------------- | -------------------------- |
+| **Keyword Matching**                      | ✅ Very fast         | ✅ Supported (with meaning) |
+| **Semantic Matching**                     | ❌ Not supported     | ✅ Accurate                 |
+| **Handling Synonyms (e.g., Paracetamol)** | ❌ Fails             | ✅ Supported                |
+| **Fuzzy Queries (e.g., Headache relief)** | ❌ Fails             | ✅ Matches intent           |
+| **Multilingual Support**                  | ❌ Limited           | ✅ Excellent                |
 
 
-## **Limitations**
+## Limitations
+
 - **Dependency on GPUs**:
    - While the setup works on a CPU, embedding generation is significantly slower without a GPU.
 - **Initial Data Preparation**:
    - Data cleaning and preprocessing are manual and require domain knowledge.
-
 
 ## License
 This project is licensed under the [MIT License](./LICENSE). Feel free to use, adapt, and extend it as needed.
